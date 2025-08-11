@@ -1,11 +1,18 @@
-FROM ubuntu:20.04
+# Use Python base image
+FROM python:3.10-slim
 
-ARG ENV
-ENV APP_ENV=$ENV
-
+# Set working directory
 WORKDIR /app
-COPY . /app
 
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+# Copy requirements and install dependencies
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
 
-CMD ["nginx", "-g", "daemon off;"]
+# Copy application code
+COPY . .
+
+# Expose Flask's port
+EXPOSE 5000
+
+# Run the app
+CMD ["python", "app.py"]
