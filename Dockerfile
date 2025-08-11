@@ -1,7 +1,11 @@
-FROM python:3.11-slim
-ARG ENV=dev
+FROM ubuntu:20.04
+
+ARG ENV
+ENV APP_ENV=$ENV
+
 WORKDIR /app
-COPY . .
-COPY config.${ENV}.json /app/config.json
-EXPOSE 80
-CMD ["python3", "-m", "http.server", "80"]
+COPY . /app
+
+RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
+
+CMD ["nginx", "-g", "daemon off;"]
