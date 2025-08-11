@@ -21,7 +21,7 @@ pipeline {
         stage('Run Container') {
             steps {
                 script {
-                    def port = params.ENVIRONMENT == 'dev' ? '8080:80' : '9090:80'
+                    def port = params.ENVIRONMENT == 'dev' ? '8081:80' : '9090:80'
                     sh "docker run -d --name ${CONTAINER} -p ${port} ${IMAGE}"
                 }
             }
